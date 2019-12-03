@@ -13,6 +13,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -46,7 +47,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         {
             isSensorPresent = false;
         }
-
     }
 
     @Override

@@ -3,8 +3,8 @@ package com.example.petclasstest;
 import java.util.Random;
 
 public class Pet {
-    private String name, animal;
-    private int age;
+    private String name;
+    private int age, animalType;
     private float hunger, health, happiness, decayRate;
 
     public String getName() {
@@ -15,20 +15,20 @@ public class Pet {
         this.name = name;
     }
 
-    public String getAnimal() {
-        return animal;
-    }
-
-    public void setAnimal(String animal) {
-        this.animal = animal;
-    }
-
     public int getAge() {
         return age;
     }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getAnimalType() {
+        return animalType;
+    }
+
+    public void setAnimalType(int animalType) {
+        this.animalType = animalType;
     }
 
     public float getHunger() {
@@ -68,5 +68,14 @@ public class Pet {
         String[] petNames = {"Jim", "Bob", "Reginald"};
         String newName = petNames[new Random().nextInt(petNames.length)];
         setName(newName);
+
+        int[] animalType = {1, 2, 3};
+        int newAnimal = animalType[new Random().nextInt(animalType.length)];
+        setAnimalType(newAnimal);
+
+        Random randAge = new Random();
+        setAge(randAge.nextInt((10 - 1) + 1) + 1);
     }
+
+
 }
