@@ -3,16 +3,21 @@ package com.example.petclasstest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
 
-    public boolean healthON, hungerON, happyON = false;
+    public boolean healthON, hungerON, happyON;
     public String petType;
+    public int healthProgNum, hungerProgNum, happyProgNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,32 @@ public class MainActivity extends AppCompatActivity {
         Button newPet = findViewById(R.id.button);
 
         makePet(newPet);
-        statActive();
+
+
+    }
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 1000;
+
+    @Override
+    protected void onResume()
+    {
+        handler.postDelayed(runnable = new Runnable() {
+            public void run()
+            {
+                statActive();
+                handler.postDelayed(runnable, delay);
+            }
+        }, delay);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        handler.removeCallbacks(runnable);
+        super.onPause();
     }
 
     public void makePet(View view)
@@ -54,46 +84,53 @@ public class MainActivity extends AppCompatActivity {
 
     public void statActive()
     {
-        RadioButton healthButton = findViewById(R.id.healthButton);
-        RadioButton hungerButton = findViewById(R.id.hungerButton);
-        RadioButton happinessButton = findViewById(R.id.happinessButton);
-        ProgressBar healthProg = findViewById(R.id.healthBar);
+        final RadioButton healthButton = findViewById(R.id.healthButton);
+        final RadioButton hungerButton = findViewById(R.id.hungerButton);
+        final RadioButton happinessButton = findViewById(R.id.happinessButton);
+        final ProgressBar healthProg = findViewById(R.id.healthBar);
+        final ProgressBar hungerProg = findViewById(R.id.hungerBar);
+        final ProgressBar happyProg = findViewById(R.id.happyBar);
 
         healthProg.setMax(100);
         healthProg.setProgress(0);
 
-        if (healthButton.isChecked() == true)
-        {
-            healthON = true;
-            hungerON = false;
-            happyON = false;
-        }
-        else if (hungerButton.isChecked() == true)
-        {
-            healthON = false;
-            hungerON = true;
-            happyON = false;
-        }
-        else if (happinessButton.isChecked() == true)
-        {
-            healthON = false;
-            hungerON = false;
-            happyON = true;
-        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask (){
+            public void run()
+            {
+                if (healthButton.isChecked() && healthProgNum <= 100)
+                {
+                    healthProg.setProgress(healthProgNum);
+                    healthProgNum += 4;
+                }
+                else if (!healthButton.isChecked() && healthProgNum >= 0)
+                {
+                    healthProg.setProgress(healthProgNum);
+                    healthProgNum -= 1;
+                }
 
-        if (healthON)
-        {
-            for(int i = 0; i <= 100; i++)
-            {
-                healthProg.setProgress(i);
+                if (hungerButton.isChecked() && hungerProgNum <= 100)
+                {
+                    hungerProg.setProgress(hungerProgNum);
+                    hungerProgNum += 4;
+                }
+                else if (!hungerButton.isChecked() && hungerProgNum >= 0)
+                {
+                    hungerProg.setProgress(hungerProgNum);
+                    hungerProgNum -= 1;
+                }
+
+                if (happinessButton.isChecked() && happyProgNum <= 100)
+                {
+                    happyProg.setProgress(happyProgNum);
+                    happyProgNum += 4;
+                }
+                else if (!happinessButton.isChecked() && happyProgNum >= 0)
+                {
+                    happyProg.setProgress(happyProgNum);
+                    happyProgNum -= 1;
+                }
             }
-        }
-        else if (!healthON)
-        {
-            for (int i = 100; i >= 0; i--)
-            {
-                healthProg.setProgress(i);
-            }
-        }
+        }, 1000);
     }
 }
