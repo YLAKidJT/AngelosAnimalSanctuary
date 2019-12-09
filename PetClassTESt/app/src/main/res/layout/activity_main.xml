@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <SurfaceView
-        android:id="@+id/petDisplay"
-        android:layout_width="146dp"
-        android:layout_height="139dp"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/happyBar" />
-
     <TextView
         android:id="@+id/petName"
         android:layout_width="wrap_content"
@@ -152,5 +143,15 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hungerBar" />
+
+    <ImageView
+        android:id="@+id/petDisplay"
+        android:layout_width="180dp"
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/happyBar"
+        app:srcCompat="@drawable/birb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

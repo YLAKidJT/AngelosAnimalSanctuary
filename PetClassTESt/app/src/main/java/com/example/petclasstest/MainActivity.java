@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -18,19 +19,17 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+public class MainActivity extends AppCompatActivity {
 
     SurfaceHolder holder = null;
 
     public boolean healthON, hungerON, happyON;
     public String petType;
-    public int healthProgNum, hungerProgNum, happyProgNum, decayRate, petShow;
+    public int healthProgNum, hungerProgNum, happyProgNum, decayRate;
 
-    boolean bitmapsLoaded = false;
     Bitmap birb = null;
     Bitmap doggo = null;
     Bitmap catto = null;
-    int petDispSize = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             public void run()
             {
                 statActive();
-                redraw();
                 handler.postDelayed(runnable, delay);
             }
         }, delay);
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         TextView nameText = findViewById(R.id.petName);
         TextView animalType = findViewById(R.id.animalType);
         TextView petAge = findViewById(R.id.petAge);
+        ImageView petDisp = findViewById(R.id.petDisplay);
 
         Pet newPet = new Pet();
         newPet.createPet();
@@ -79,17 +78,17 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         if (newPet.getAnimalType() == 1)
         {
             petType = "Doggo";
-            petShow = 1;
+            petDisp.setImageDrawable(getResources().getDrawable(R.drawable.doggo));
         }
         else if (newPet.getAnimalType() == 2)
         {
             petType = "Catto";
-            petShow = 2;
+            petDisp.setImageDrawable(getResources().getDrawable(R.drawable.catto));
         }
         else if (newPet.getAnimalType() == 3)
         {
             petType = "Birb";
-            petShow = 3;
+            petDisp.setImageDrawable(getResources().getDrawable(R.drawable.birb));
         }
 
         nameText.setText("Name: " + newPet.getName());
@@ -148,57 +147,5 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 }
             }
         }, 1000);
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        holder = surfaceHolder;
-        redraw();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
-    }
-
-    void loadBitmapsAndPaints(Canvas canvas)
-    {
-        birb = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.birb), petDispSize, petDispSize, false);
-        doggo = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doggo), petDispSize, petDispSize, false);
-        catto = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.catto), petDispSize, petDispSize, false);
-
-        bitmapsLoaded = true;
-    }
-
-    void draw(Canvas canvas)
-    {
-        SurfaceView surfaceView = findViewById(R.id.petDisplay);
-
-        if (petShow == 1)
-        {
-            canvas.drawBitmap(doggo, (surfaceView.getWidth()/2)-petDispSize, (surfaceView.getHeight()/2)-petDispSize,  null);
-        }
-        else if (petShow == 2)
-        {
-            canvas.drawBitmap(catto, (surfaceView.getWidth()/2)-petDispSize, (surfaceView.getHeight()/2)-petDispSize,  null);
-        }
-        else if (petShow == 3)
-        {
-            canvas.drawBitmap(birb, (surfaceView.getWidth()/2)-petDispSize, (surfaceView.getHeight()/2)-petDispSize,  null);
-        }
-    }
-
-    void redraw()
-    {
-        if (holder == null)return;
-        Canvas c = holder.lockCanvas();
-        if(!bitmapsLoaded)loadBitmapsAndPaints(c);
-        draw(c);
-        holder.unlockCanvasAndPost(c);
     }
 }

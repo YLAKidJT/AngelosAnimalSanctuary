@@ -75,7 +75,7 @@ public class Pet {
         setAnimalType(newAnimal);
 
         Random randAge = new Random();
-        setAge(randAge.nextInt((10 - 1) + 1) + 1);
+        setAge(randAge.nextInt((3 - 1) + 1) + 1);
 
         int decayR = new Random().nextInt((10 + 1) + 1);
         setDecayRate(decayR);
