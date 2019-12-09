@@ -2,8 +2,13 @@ package com.example.petclasstest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,11 +18,19 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+
+    SurfaceHolder holder = null;
 
     public boolean healthON, hungerON, happyON;
     public String petType;
-    public int healthProgNum, hungerProgNum, happyProgNum;
+    public int healthProgNum, hungerProgNum, happyProgNum, decayRate, petShow;
+
+    boolean bitmapsLoaded = false;
+    Bitmap birb = null;
+    Bitmap doggo = null;
+    Bitmap catto = null;
+    int petDispSize = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
         Button newPet = findViewById(R.id.button);
 
         makePet(newPet);
-
-
     }
 
     Handler handler = new Handler();
@@ -42,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void run()
             {
                 statActive();
+                redraw();
                 handler.postDelayed(runnable, delay);
             }
         }, delay);
@@ -66,20 +78,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (newPet.getAnimalType() == 1)
         {
-            petType = "Dog";
+            petType = "Doggo";
+            petShow = 1;
         }
         else if (newPet.getAnimalType() == 2)
         {
-            petType = "Cat";
+            petType = "Catto";
+            petShow = 2;
         }
         else if (newPet.getAnimalType() == 3)
         {
             petType = "Birb";
+            petShow = 3;
         }
 
         nameText.setText("Name: " + newPet.getName());
         animalType.setText("Pet Type: " + petType);
         petAge.setText("Pet Age: " + newPet.getAge());
+        decayRate = newPet.getDecayRate();
     }
 
     public void statActive()
@@ -106,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 else if (!healthButton.isChecked() && healthProgNum >= 0)
                 {
                     healthProg.setProgress(healthProgNum);
-                    healthProgNum -= 1;
+                    healthProgNum -= decayRate;
                 }
 
                 if (hungerButton.isChecked() && hungerProgNum <= 100)
@@ -117,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 else if (!hungerButton.isChecked() && hungerProgNum >= 0)
                 {
                     hungerProg.setProgress(hungerProgNum);
-                    hungerProgNum -= 1;
+                    hungerProgNum -= decayRate;
                 }
 
                 if (happinessButton.isChecked() && happyProgNum <= 100)
@@ -128,9 +144,61 @@ public class MainActivity extends AppCompatActivity {
                 else if (!happinessButton.isChecked() && happyProgNum >= 0)
                 {
                     happyProg.setProgress(happyProgNum);
-                    happyProgNum -= 1;
+                    happyProgNum -= decayRate;
                 }
             }
         }, 1000);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        holder = surfaceHolder;
+        redraw();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
+    }
+
+    void loadBitmapsAndPaints(Canvas canvas)
+    {
+        birb = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.birb), petDispSize, petDispSize, false);
+        doggo = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.doggo), petDispSize, petDispSize, false);
+        catto = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.catto), petDispSize, petDispSize, false);
+
+        bitmapsLoaded = true;
+    }
+
+    void draw(Canvas canvas)
+    {
+        SurfaceView surfaceView = findViewById(R.id.petDisplay);
+
+        if (petShow == 1)
+        {
+            canvas.drawBitmap(doggo, (surfaceView.getWidth()/2)-petDispSize, (surfaceView.getHeight()/2)-petDispSize,  null);
+        }
+        else if (petShow == 2)
+        {
+            canvas.drawBitmap(catto, (surfaceView.getWidth()/2)-petDispSize, (surfaceView.getHeight()/2)-petDispSize,  null);
+        }
+        else if (petShow == 3)
+        {
+            canvas.drawBitmap(birb, (surfaceView.getWidth()/2)-petDispSize, (surfaceView.getHeight()/2)-petDispSize,  null);
+        }
+    }
+
+    void redraw()
+    {
+        if (holder == null)return;
+        Canvas c = holder.lockCanvas();
+        if(!bitmapsLoaded)loadBitmapsAndPaints(c);
+        draw(c);
+        holder.unlockCanvasAndPost(c);
     }
 }

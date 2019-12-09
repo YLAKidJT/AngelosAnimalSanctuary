@@ -4,8 +4,9 @@ import java.util.Random;
 
 public class Pet {
     private String name;
-    private int age, animalType;
-    private float hunger, health, happiness, decayRate;
+    private int age, animalType, decayRate;
+    private float hunger, health, happiness;
+
 
     public String getName() {
         return name;
@@ -29,6 +30,14 @@ public class Pet {
 
     public void setAnimalType(int animalType) {
         this.animalType = animalType;
+    }
+
+    public int getDecayRate() {
+        return decayRate;
+    }
+
+    public void setDecayRate(int decayRate) {
+        this.decayRate = decayRate;
     }
 
     public float getHunger() {
@@ -55,14 +64,6 @@ public class Pet {
         this.happiness = happiness;
     }
 
-    public float getDecayRate() {
-        return decayRate;
-    }
-
-    public void setDecayRate(float decayRate) {
-        this.decayRate = decayRate;
-    }
-
     public void createPet()
     {
         String[] petNames = {"Jim", "Bob", "Reginald"};
@@ -75,6 +76,9 @@ public class Pet {
 
         Random randAge = new Random();
         setAge(randAge.nextInt((10 - 1) + 1) + 1);
+
+        int decayR = new Random().nextInt((10 + 1) + 1);
+        setDecayRate(decayR);
     }
 
 
