@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatActivity">
+
+    <Button
+        android:id="@+id/menuButton"
+        android:layout_width="62dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/menuicon"
+        android:onClick="backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/titleImage"
+        android:layout_width="187dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/petstatsscreentitle" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="62dp"
+        android:layout_height="199dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:dividerPadding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuButton">
+
+        <RadioButton
+            android:id="@+id/healthButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <RadioButton
+            android:id="@+id/hungerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <RadioButton
+            android:id="@+id/happinessButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <ImageView
+        android:id="@+id/healthText"
+        android:layout_width="213dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/healthProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/health" />
+
+    <ImageView
+        android:id="@+id/hungerText"
+        android:layout_width="213dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/hungerProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/hunger" />
+
+    <ImageView
+        android:id="@+id/happinessText"
+        android:layout_width="213dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/happinessProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/happiness" />
+
+    <ProgressBar
+        android:id="@+id/healthProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="302dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/menuButton" />
+
+    <ProgressBar
+        android:id="@+id/hungerProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="302dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/healthProgress" />
+
+    <ProgressBar
+        android:id="@+id/happinessProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="302dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/hungerProgress" />
+
+    <ImageView
+        android:id="@+id/petImage"
+        android:layout_width="165dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/happinessProgress"
+        app:srcCompat="@drawable/birb" />
+
+    <ImageView
+        android:id="@+id/petStatsBox"
+        android:layout_width="261dp"
+        android:layout_height="231dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/happinessProgress"
+        app:srcCompat="@drawable/petstatsbox" />
+
+    <Button
+        android:id="@+id/newPetButton"
+        android:layout_width="336dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/newpetbutton"
+        android:onClick="makePet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/petStatsBox" />
+
+    <TextView
+        android:id="@+id/petName"
+        android:layout_width="196dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/petStatsBox"
+        app:layout_constraintStart_toStartOf="@+id/petStatsBox"
+        app:layout_constraintTop_toTopOf="@+id/petStatsBox" />
+
+    <TextView
+        android:id="@+id/petType"
+        android:layout_width="196dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/petStatsBox"
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toStartOf="@+id/petStatsBox"
+        app:layout_constraintTop_toBottomOf="@+id/petName" />
+
+    <TextView
+        android:id="@+id/petAge"
+        android:layout_width="196dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/petStatsBox"
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toStartOf="@+id/petStatsBox"
+        app:layout_constraintTop_toBottomOf="@+id/petType" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
