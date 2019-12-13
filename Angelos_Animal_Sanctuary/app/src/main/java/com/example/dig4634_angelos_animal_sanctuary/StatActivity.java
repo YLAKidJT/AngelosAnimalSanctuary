@@ -1,8 +1,15 @@
 package com.example.dig4634_angelos_animal_sanctuary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,17 +23,30 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class StatActivity extends AppCompatActivity {
+public class StatActivity extends AppCompatActivity implements LocationListener {
 
     public String name;
     public int age, type, decayRate, curHealth, curHunger, curHappy;
     public Pet newPet = new Pet();
     public boolean firstTime;
 
+    final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stat);
+
+        boolean permissionAccessFineLocationApproved = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        if (permissionAccessFineLocationApproved)
+        {
+            startGPS();
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
+        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -51,7 +71,34 @@ public class StatActivity extends AppCompatActivity {
         setPet();
     }
 
-    Handler handler = new Handler();
+    @Override
+    public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults)
+    {
+        if (requestCode == REQUEST_PERMISSION_ACCESS_FINE_LOCATION)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                finish();
+            }
+            else
+            {
+                startGPS();
+            }
+        }
+    }
+
+    private void startGPS()
+    {
+        boolean permissionAccessFineLocationApproved = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        if (permissionAccessFineLocationApproved)
+        {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, this);
+        }
+    }
+
+    /*Handler handler = new Handler();
     Runnable runnable;
     int delay = 1000;
 
@@ -73,7 +120,7 @@ public class StatActivity extends AppCompatActivity {
     {
         handler.removeCallbacks(runnable);
         super.onPause();
-    }
+    }*/
 
     public void makePet(View view)
     {
@@ -213,5 +260,63 @@ public class StatActivity extends AppCompatActivity {
         intent.putExtra("curHunger", curHunger);
         intent.putExtra("curHappy", curHappy);
         startActivity(intent);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        final RadioButton healthButton = findViewById(R.id.healthButton);
+        final RadioButton hungerButton = findViewById(R.id.hungerButton);
+        final RadioButton happinessButton = findViewById(R.id.happinessButton);
+        final ProgressBar healthProg = findViewById(R.id.healthProgress);
+        final ProgressBar hungerProg = findViewById(R.id.hungerProgress);
+        final ProgressBar happyProg = findViewById(R.id.happinessProgress);
+
+        if (healthButton.isChecked() && curHealth <= 100)
+        {
+            healthProg.setProgress(curHealth);
+            curHealth += 4;
+        }
+        else if (!healthButton.isChecked() && curHealth >= 0)
+        {
+            healthProg.setProgress(curHealth);
+            curHealth -= decayRate;
+        }
+
+        if (hungerButton.isChecked() && curHunger <= 100)
+        {
+            hungerProg.setProgress(curHunger);
+            curHunger += 4;
+        }
+        else if (!hungerButton.isChecked() && curHunger >= 0)
+        {
+            hungerProg.setProgress(curHunger);
+            curHunger -= decayRate;
+        }
+
+        if (happinessButton.isChecked() && curHappy <= 100)
+        {
+            happyProg.setProgress(curHappy);
+            curHappy += 4;
+        }
+        else if (!happinessButton.isChecked() && curHappy >= 0)
+        {
+            happyProg.setProgress(curHappy);
+            curHappy -= decayRate;
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 }

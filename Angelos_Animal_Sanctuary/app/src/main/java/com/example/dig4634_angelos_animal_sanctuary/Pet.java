@@ -89,8 +89,6 @@ public class Pet {
         Random dropChance = new Random();
         int rareDrop = dropChance.nextInt(99);
 
-        rareDrop = 42;
-
         if (rareDrop == 4)
         {
             setName("Mia");
