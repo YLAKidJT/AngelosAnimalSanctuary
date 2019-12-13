@@ -77,7 +77,7 @@ public class StatActivity extends AppCompatActivity {
 
     public void makePet(View view)
     {
-        newPet.createPet();
+        newPet.petGenerate();
 
         getStats();
         setStats();
@@ -124,6 +124,9 @@ public class StatActivity extends AppCompatActivity {
         petName.setText("Name: " + name);
         petAge.setText("Pet Age: " + age);
 
+        if (age == 0)
+            petAge.setText("Pet Age: Baby");
+
         if (type == 1)
         {
             petType.setText("Pet Type: Doggo");
@@ -137,6 +140,11 @@ public class StatActivity extends AppCompatActivity {
         else if (type == 3)
         {
             petType.setText("Pet Type: Birb");
+            petImage.setImageDrawable(getResources().getDrawable(R.drawable.birb));
+        }
+        else if (type == 4)
+        {
+            petType.setText("Pet Type: Phoenix CACAW!!");
             petImage.setImageDrawable(getResources().getDrawable(R.drawable.birb));
         }
     }

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".StatActivity">
 
+    <ImageView
+        android:id="@+id/statBG"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/boneboi" />
+
     <Button
         android:id="@+id/menuButton"
         android:layout_width="62dp"
@@ -39,7 +50,8 @@
         <RadioButton
             android:id="@+id/healthButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableTint="#00FFFFFF" />
 
         <Space
             android:layout_width="match_parent"
@@ -159,6 +171,7 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/petStatsBox"
         app:layout_constraintStart_toStartOf="@+id/petStatsBox"
@@ -171,6 +184,7 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/petStatsBox"
         app:layout_constraintHorizontal_bias="0.527"
@@ -184,6 +198,7 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/petStatsBox"
         app:layout_constraintHorizontal_bias="0.527"

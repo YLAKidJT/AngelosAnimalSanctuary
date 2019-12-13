@@ -66,7 +66,7 @@ public class Pet {
 
     public void createPet()
     {
-        String[] petNames = {"Jim", "Bob", "Reginald", "Morrigan", "Esther", "Julie", "Mike", "Lucky", "Princess", "Fluffy", "Gizmo", "Buster", "Esteban", "Mia"};
+        String[] petNames = {"Jim", "Bob", "Reginald", "Morrigan", "Esther", "Julie", "Mike", "Lucky", "Princess", "Fluffy", "Gizmo", "Buster", "Esteban", "Lucy", "Peaches", "Bella", "Daisy", "Harley", "Penny"};
         String newName = petNames[new Random().nextInt(petNames.length)];
         setName(newName);
 
@@ -82,5 +82,46 @@ public class Pet {
 
         if (decayRate < 1)
             decayRate = 1;
+    }
+
+    public void petGenerate()
+    {
+        Random dropChance = new Random();
+        int rareDrop = dropChance.nextInt(99);
+
+        rareDrop = 42;
+
+        if (rareDrop == 4)
+        {
+            setName("Mia");
+            setAge(0);
+            setAnimalType(2);
+            setDecayRate(0);
+        }
+        else if (rareDrop == 42)
+        {
+            setName("Tyvan");
+            setAge(23);
+            setAnimalType(3);
+            setDecayRate(1);
+        }
+        else if (rareDrop == 13)
+        {
+            setName("Wes");
+            setAge(7);
+            setAnimalType(1);
+            setDecayRate(2);
+        }
+        else if (rareDrop == 11)
+        {
+            setName("Justine");
+            setAge(1337);
+            setAnimalType(4);
+            setDecayRate(5);
+        }
+        else
+        {
+            createPet();
+        }
     }
 }

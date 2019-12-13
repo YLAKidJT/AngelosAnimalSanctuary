@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void createPet()
     {
-        newPet.createPet();
+        newPet.petGenerate();
         getStats();
         setStats();
     }
