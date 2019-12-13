@@ -19,7 +19,7 @@ import java.util.TimerTask;
 public class StatActivity extends AppCompatActivity {
 
     public String name;
-    public int age, type, healthProgNum, hungerProgNum, happyProgNum, decayRate;
+    public int age, type, decayRate, curHealth, curHunger, curHappy;
     public Pet newPet = new Pet();
     public boolean firstTime;
 
@@ -36,6 +36,9 @@ public class StatActivity extends AppCompatActivity {
             type = extras.getInt("Type");
             decayRate = extras.getInt("dRate");
             firstTime = extras.getBoolean("firstTime");
+            curHealth = extras.getInt("curHealth");
+            curHunger = extras.getInt("curHunger");
+            curHappy = extras.getInt("curHappy");
         }
 
         Button newPetButton = findViewById(R.id.newPetButton);
@@ -88,6 +91,9 @@ public class StatActivity extends AppCompatActivity {
         age = newPet.getAge();
         type = newPet.getAnimalType();
         decayRate = newPet.getDecayRate();
+        curHealth = newPet.getHealth();
+        curHunger = newPet.getHunger();
+        curHappy = newPet.getHappiness();
     }
 
     public void setStats()
@@ -96,6 +102,9 @@ public class StatActivity extends AppCompatActivity {
         newPet.setAge(age);
         newPet.setAnimalType(type);
         newPet.setDecayRate(decayRate);
+        newPet.setHealth(curHealth);
+        newPet.setHunger(curHunger);
+        newPet.setHappiness(curHappy);
     }
 
     public void setPet()
@@ -104,6 +113,13 @@ public class StatActivity extends AppCompatActivity {
         TextView petType = findViewById(R.id.petType);
         TextView petAge = findViewById(R.id.petAge);
         ImageView petImage = findViewById(R.id.petImage);
+        ProgressBar healthProgress = findViewById(R.id.healthProgress);
+        ProgressBar hungerProgress = findViewById(R.id.hungerProgress);
+        ProgressBar happinessProgress = findViewById(R.id.happinessProgress);
+
+        healthProgress.setProgress(curHealth);
+        hungerProgress.setProgress(curHunger);
+        happinessProgress.setProgress(curHappy);
 
         petName.setText("Name: " + name);
         petAge.setText("Pet Age: " + age);
@@ -134,44 +150,41 @@ public class StatActivity extends AppCompatActivity {
         final ProgressBar hungerProg = findViewById(R.id.hungerProgress);
         final ProgressBar happyProg = findViewById(R.id.happinessProgress);
 
-        healthProg.setMax(100);
-        healthProg.setProgress(0);
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask(){
             public void run()
             {
-                if (healthButton.isChecked() && healthProgNum <= 100)
+                if (healthButton.isChecked() && curHealth <= 100)
                 {
-                    healthProg.setProgress(healthProgNum);
-                    healthProgNum += 4;
+                    healthProg.setProgress(curHealth);
+                    curHealth += 4;
                 }
-                else if (!healthButton.isChecked() && healthProgNum >= 0)
+                else if (!healthButton.isChecked() && curHealth >= 0)
                 {
-                    healthProg.setProgress(healthProgNum);
-                    healthProgNum -= decayRate;
-                }
-
-                if (hungerButton.isChecked() && hungerProgNum <= 100)
-                {
-                    hungerProg.setProgress(hungerProgNum);
-                    hungerProgNum += 4;
-                }
-                else if (!hungerButton.isChecked() && hungerProgNum >= 0)
-                {
-                    hungerProg.setProgress(hungerProgNum);
-                    hungerProgNum -= decayRate;
+                    healthProg.setProgress(curHealth);
+                    curHealth -= decayRate;
                 }
 
-                if (happinessButton.isChecked() && happyProgNum <= 100)
+                if (hungerButton.isChecked() && curHunger <= 100)
                 {
-                    happyProg.setProgress(happyProgNum);
-                    happyProgNum += 4;
+                    hungerProg.setProgress(curHunger);
+                    curHunger += 4;
                 }
-                else if (!happinessButton.isChecked() && happyProgNum >= 0)
+                else if (!hungerButton.isChecked() && curHunger >= 0)
                 {
-                    happyProg.setProgress(happyProgNum);
-                    happyProgNum -= decayRate;
+                    hungerProg.setProgress(curHunger);
+                    curHunger -= decayRate;
+                }
+
+                if (happinessButton.isChecked() && curHappy <= 100)
+                {
+                    happyProg.setProgress(curHappy);
+                    curHappy += 4;
+                }
+                else if (!happinessButton.isChecked() && curHappy >= 0)
+                {
+                    happyProg.setProgress(curHappy);
+                    curHappy -= decayRate;
                 }
             }
         }, 1000);
@@ -179,6 +192,7 @@ public class StatActivity extends AppCompatActivity {
 
     public void backButton(View view)
     {
+        setStats();
         getStats();
 
         Intent intent = new Intent(this, MainActivity.class);
@@ -187,6 +201,9 @@ public class StatActivity extends AppCompatActivity {
         intent.putExtra("Type", type);
         intent.putExtra("dRate", decayRate);
         intent.putExtra("firstTime", firstTime);
+        intent.putExtra("curHealth", curHealth);
+        intent.putExtra("curHunger", curHunger);
+        intent.putExtra("curHappy", curHappy);
         startActivity(intent);
     }
 }

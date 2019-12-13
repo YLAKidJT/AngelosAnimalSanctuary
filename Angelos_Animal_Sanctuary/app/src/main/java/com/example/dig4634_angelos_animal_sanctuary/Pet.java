@@ -5,7 +5,7 @@ import java.util.Random;
 public class Pet {
     private String name;
     private int age, animalType, decayRate;
-    private float hunger, health, happiness;
+    private int hunger, health, happiness;
 
 
     public String getName() {
@@ -40,33 +40,33 @@ public class Pet {
         this.decayRate = decayRate;
     }
 
-    public float getHunger() {
+    public int getHunger() {
         return hunger;
     }
 
-    public void setHunger(float hunger) {
+    public void setHunger(int hunger) {
         this.hunger = hunger;
     }
 
-    public float getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public void setHealth(float health) {
+    public void setHealth(int health) {
         this.health = health;
     }
 
-    public float getHappiness() {
+    public int getHappiness() {
         return happiness;
     }
 
-    public void setHappiness(float happiness) {
+    public void setHappiness(int happiness) {
         this.happiness = happiness;
     }
 
     public void createPet()
     {
-        String[] petNames = {"Jim", "Bob", "Reginald"};
+        String[] petNames = {"Jim", "Bob", "Reginald", "Morrigan", "Esther", "Julie", "Mike", "Lucky", "Princess", "Fluffy", "Gizmo", "Buster", "Esteban", "Mia"};
         String newName = petNames[new Random().nextInt(petNames.length)];
         setName(newName);
 
@@ -75,9 +75,12 @@ public class Pet {
         setAnimalType(newAnimal);
 
         Random randAge = new Random();
-        setAge(randAge.nextInt((10 + 1) + 1) + 1);
+        setAge(randAge.nextInt((15 + 1) + 1));
 
-        int decayR = new Random().nextInt((3 - 1) + 1);
-        setDecayRate(decayR);
+        Random decayR = new Random();
+        setDecayRate(decayR.nextInt((3 + 1) + 1));
+
+        if (decayRate < 1)
+            decayRate = 1;
     }
 }
